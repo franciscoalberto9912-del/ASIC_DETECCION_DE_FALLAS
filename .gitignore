@@ -1,0 +1,6 @@
+sim/
+*.log
+*.vcd
+*.fsdb
+*.key
+work/
