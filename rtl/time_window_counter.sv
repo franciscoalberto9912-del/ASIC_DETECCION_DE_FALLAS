@@ -1,36 +1,56 @@
-module time_window_counter #(
-    parameter int WINDOW_SIZE = 1000,
-    parameter int CNT_WIDTH   = 8
+module sliding_window_counter #(
+    parameter int MAX_WINDOW_SIZE = 64
 )(
     input  logic clk,
     input  logic rst_n,
+
     input  logic event_pulse,
-    input  logic window_start,
-    output logic window_done,
-    output logic [CNT_WIDTH-1:0] event_count
+
+    // CONFIGURABLE INPUT
+    input  logic [$clog2(MAX_WINDOW_SIZE+1)-1:0] WINDOW_SIZE,
+
+    output logic [$clog2(MAX_WINDOW_SIZE+1)-1:0] event_count
 );
 
-    logic [$clog2(WINDOW_SIZE)-1:0] window_cnt;
+    localparam CNT_WIDTH = $clog2(MAX_WINDOW_SIZE+1);
+
+    logic [MAX_WINDOW_SIZE-1:0] window_reg;
+
+    integer i;
+
+    
+    // Sliding Window Register
+  
 
     always_ff @(posedge clk or negedge rst_n) begin
-        if (!rst_n) begin
-            window_cnt  <= '0;
-            event_count <= '0;
-            window_done <= 1'b0;
-        end else if (window_start) begin
-            window_cnt  <= '0;
-            event_count <= '0;
-            window_done <= 1'b0;
-        end else begin
-            window_cnt <= window_cnt + 1'b1;
 
-            if (event_pulse)
-                event_count <= event_count + 1'b1;
+        if(!rst_n)
+            window_reg <= '0;
 
-            if (window_cnt == WINDOW_SIZE-1)
-                window_done <= 1'b1;
+        else begin
+
+            window_reg <= {
+                window_reg[MAX_WINDOW_SIZE-2:0],
+                event_pulse
+            };
+
         end
+
+    end
+
+  
+
+    always_comb begin
+
+        event_count = '0;
+
+        for(i = 0; i < MAX_WINDOW_SIZE; i++) begin
+
+            if(i < WINDOW_SIZE)
+                event_count = event_count + window_reg[i];
+
+        end
+
     end
 
 endmodule
-
