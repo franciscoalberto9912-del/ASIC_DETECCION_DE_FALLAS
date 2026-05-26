@@ -19,7 +19,7 @@ module sliding_window_counter #(
     integer i;
 
     
-    // Sliding Window Register
+    // registro de ventana deslisante 
   
 
     always_ff @(posedge clk or negedge rst_n) begin

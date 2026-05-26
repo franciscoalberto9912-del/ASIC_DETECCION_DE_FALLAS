@@ -49,7 +49,7 @@ module tb_top;
 
     initial begin
 
-        $dumpfile("tb_top.vcd");
+        $dumpfile("sim/wave.vcd");
         $dumpvars(0, tb_top);
 
     end
@@ -109,9 +109,9 @@ module tb_top;
         WINDOW_SIZE   = 50;
         THRESHOLD     = 5;
 
-        $display("\n====================================================");
+       
         $display("CONFIGURACION INICIAL");
-        $display("====================================================");
+        
 
         $display("CLOCK            = 27 MHz");
         $display("STABLE_CYCLES    = %0d", STABLE_CYCLES);
@@ -260,8 +260,8 @@ module tb_top;
 
         repeat(5) begin
 
-            #40 async_in = 1;
-            #40 async_in = 0;
+            #150 async_in = 1;
+            #150 async_in = 0;
 
         end
 

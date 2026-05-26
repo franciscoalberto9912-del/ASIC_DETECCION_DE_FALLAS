@@ -5,7 +5,7 @@ module top (
 
     input  logic async_in,
 
-    // =========================
+    
     // Configuración externa
    
 
