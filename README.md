@@ -68,11 +68,13 @@ iverilog -g2012 -o sim_out tb/tb_top.sv rtl/*.sv
 
 ## ejecucion del scrip de para simulacion
 DESDE LA RAIZ DEL PROYECTO
+1.- crear el directorio de simulacion llamado sim
+mkdir sim
 
-1.- dar permisos
+2.- dar permisos
 chmod +x scripts/run_sim.sh
 
-2.- ejecutar el script
+3.- ejecutar el script
 
 ./scripts/run_sim.sh
 
